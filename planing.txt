@@ -1,0 +1,24 @@
+First thing to do:
+    Set up layout
+    set background color
+    set up database
+
+Setting up database
+    needs:
+            task id
+            task title
+            task tag
+            date made
+            is complete?
+    will need to link to user account if have time.
+
+need a list of ongoing tasks
+need a page for completed tasks
+
+-------
+
+layout
+
+need nav bar (bootstrap??)
+need footer (bootstrap??)
+try to make it mobile friendly(looking like bootstrap lmao)
