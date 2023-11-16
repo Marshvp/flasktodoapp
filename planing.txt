@@ -22,3 +22,7 @@ layout
 need nav bar (bootstrap??)
 need footer (bootstrap??)
 try to make it mobile friendly(looking like bootstrap lmao)
+
+
+navbar sources:
+    https://www.youtube.com/watch?v=qNifU_aQRio&ab_channel=AdrianTwarog
