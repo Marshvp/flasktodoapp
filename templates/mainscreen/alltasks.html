@@ -27,13 +27,14 @@
 
   <!--  {{ tasks }} {# Print tasks for debugging purposes #} -->
     <div class="d-flex justify-content-evenly">
-        
-        <table class="table w-75 bdr" id="tasktable">
-            <thead>
+        <div>
+            <table class="table table-responsive w-75 bdr mt-5 " id="tasktable">
+            <thead class="thead-dark">
                 <tr>
                     <th scope="col">Title</th>
                     <th scope="col">Date Made</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,11 +42,16 @@
                     <tr>
                         <td>{{ task['title'] }}</td>
                         <td>{{ task['date_made'] }}</td>
-                        <td>{% if task['is_complete'] == 1 %}Complete{% else %}Incomplete{% endif %}</td>
+                        <td>Incomplete</td>
+                        <td>
+                            <form action="{{ url_for('complete_task', task_id=task['id']) }}" method="post">
+                                <button type="submit" class="btn btn-primary">Mark as Complete</button>
+                            </form>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-
+        </div>
     </div>
 {% endblock %}

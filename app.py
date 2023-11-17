@@ -104,10 +104,10 @@ def tasks():
     db, cursor = get_db()   
 
     # all tasks to be added/found
-    cursor.execute("SELECT id, title, date_made, is_complete FROM tasks WHERE user_id = ? AND is_complete = 0", (user_id,))
+    cursor.execute("SELECT id, title, date_made FROM tasks WHERE user_id = ? AND is_complete = 0", (user_id,))
     activetasks = cursor.fetchall()
 
-    tasks_with_names = [{'id': id, 'title': title, 'date_made': date_made, 'is_complete': is_complete} for id, title, date_made, is_complete in activetasks]
+    tasks_with_names = [{'id': id, 'title': title, 'date_made': date_made} for id, title, date_made in activetasks]
 
     return render_template('mainscreen/alltasks.html', tasks=tasks_with_names)
 
@@ -141,17 +141,20 @@ def complete_task(task_id):
     db, cursor = get_db()
 
     # Check if the task belongs to the logged-in user
+    date_completed = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     cursor.execute("SELECT id FROM tasks WHERE id = ? AND user_id = ?", (task_id, user_id))
     task = cursor.fetchone()
 
     if task:
-        # Update the task status to completed
-        cursor.execute("UPDATE tasks SET is_complete = 1 WHERE id = ?", (task_id,))
+
+        cursor.execute("UPDATE tasks SET is_complete = 1, date_completed = ? WHERE id = ?", (date_completed, task_id))
         db.commit()
     else:
         flash('Invalid task or unauthorized access', 'error')
 
-    return redirect(url_for('tasks'))
+    referrer = request.form.get('referrer', url_for('index'))
+
+    return redirect(referrer)
 
 @app.route('/history')
 def history():
@@ -162,10 +165,10 @@ def history():
     user_id = session['user_id']
     db, cursor = get_db()  
 
-    cursor.execute("SELECT id, title, date_made FROM tasks WHERE user_id = ? AND is_complete = 1", (user_id,))
+    cursor.execute("SELECT id, title, date_made, date_completed FROM tasks WHERE user_id = ? AND is_complete = 1", (user_id,))
     completed_tasks = cursor.fetchall()
 
-    completed_names = [{'id': id, 'title': title, 'date_made': date_made,} for id, title, date_made in completed_tasks]
+    completed_names = [{'id': id, 'title': title, 'date_made': date_made, 'date_completed': date_completed} for id, title, date_made, date_completed in completed_tasks]
 
     return render_template('mainscreen/history.html', tasks=completed_names)
 

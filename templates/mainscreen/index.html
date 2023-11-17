@@ -8,7 +8,7 @@
     </div>
     {% else %}
 
-        <div class="container">
+        <div class="container mt-5">
             <h1>Add a new task?</h1>
             <div class="card mt-3">
                 <div class="card-body">
@@ -29,7 +29,9 @@
 
 
     <div class="container mt-5">
+        <div class="row">
             {% if latest_task %}
+            <div class="col-md-6">
                 <div class="card mt-5 gy-5">
                     <div class="card-header h1">
                     Most Recent Task
@@ -39,17 +41,19 @@
                         <p class="card-text">This was added on {{ latest_task['date_made'] }}</p>
                         
                         <form action="{{ url_for('complete_task', task_id=latest_task['id']) }}" method="post">
+                            <input type="hidden" name="referrer" value="{{ request.url }}">
                             <button type="submit" class="btn btn-primary">Completed?</button>
                         </form>
 
                     </div>
                 </div>
+            </div>
         {% else %}
             <p>No tasks found.</p>
         {% endif %}
 
         {% if oldest_active_task %}
-
+        <div class="col-md-6">
             <div class="card mt-5 gy-5">
                 <div class="card-header h1">
                 Oldest Active Task
@@ -57,12 +61,18 @@
                 <div class="card-body">
                 <h5 class="card-title">{{ oldest_active_task['title'] }}</h5>
                 <p class="card-text">This was added on {{ oldest_active_task['date_made'] }}</p>
-                <a href="#" class="btn btn-primary">Completed?</a>
+                <form action="{{ url_for('complete_task', task_id=oldest_active_task['id']) }}" method="post">
+                    <input type="hidden" name="referrer" value="{{ request.url }}">
+                    <button type="submit" class="btn btn-primary">Completed?</button>
+                    
+                </form>
                 </div>
             </div>
+        </div>
         {% else %}
             <p>No active tasks found.</p>
         {% endif %}
+        </div>
     {% endif %}
     </div>
 {% endblock %}

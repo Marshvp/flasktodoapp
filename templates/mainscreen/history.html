@@ -1,16 +1,17 @@
 {% extends 'layouts/layout.html' %}
 {% block content %}
 <div class="container mt-5">
-<h2> History</h2>
+<h1> History</h1>
 </div>
 
     <div class="d-flex justify-content-evenly">
-            
-        <table class="table w-75 bdr mt-5" id="tasktable">
-            <thead>
+        <div class="table-responsive w-75 bdr mt-5">
+        <table class="table " id="tasktable">
+            <thead class="thead-dark">
                 <tr>
                     <th scope="col">Title</th>
                     <th scope="col">Date Made</th>
+                    <th scope="col">Date Completed</th>
                     <th scope="col">Status</th>
                 </tr>
             </thead>
@@ -19,10 +20,12 @@
                     <tr>
                         <td>{{ task['title'] }}</td>
                         <td>{{ task['date_made'] }}</td>
+                        <td>{{ task['date_completed'] }}</td>
                         <td>Completed</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+        </div>
     </div>
 {% endblock %}
