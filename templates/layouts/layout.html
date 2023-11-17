@@ -12,8 +12,8 @@
 <body>
         <nav class="navbar navbar-expand-sm navbar-light bg-transparent">
        
-            <a href="'#" class="navbar-brand mb-0 h1">
-                <img class="d-inline-block align-top" id="logo" src="{{ url_for('static', filename='pencil-square.svg') }}" width="50" height="50">
+            <a href="{{ url_for('index') }}" class="navbar-brand mb-0 h1">
+                <img class="d-inline-block align-top"  id="logo" src="{{ url_for('static', filename='pencil-square.svg') }}" width="50" height="50">
                 Todo App
             </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,19 +23,19 @@
                 <div class="collapse navbar-collapse justify-content-evenly" id="navbarNav">
                     <ul class="navbar-nav gx-5 gy-5">
                         <li class="nav-item active">
-                            <a href="#" class="nav-link">
+                            <a href="{{ url_for('index') }}" class="nav-link">
                                 Home
                             </a>
                         </li>
 
                         <li class="nav-item active">
-                            <a href="#" class="nav-link">
+                            <a href="{{ url_for('alltasks') }}" class="nav-link">
                                 All Tasks
                             </a>
                         </li>
 
                         <li class="nav-item active">
-                            <a href="#" class="nav-link">
+                            <a href="{{ url_for('history') }}" class="nav-link">
                                 History
                             </a>
                         </li>

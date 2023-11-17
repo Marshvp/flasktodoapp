@@ -7,6 +7,14 @@ def index():
     return render_template("mainscreen/index.html")
 
 
+@app.route('/alltasks')
+def alltasks():
+    return render_template('mainscreen/alltasks.html')
+
+
+@app.route('/history')
+def history():
+    return render_template('mainscreen/history.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
