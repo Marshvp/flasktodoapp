@@ -1,21 +1,64 @@
 {% extends 'layouts/layout.html' %}
 
 {% block content %}
+    
     {% if 'user_id' not in session %}
-        <p>Welcome! Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a>.</p>
+    <div class="container mt-5">
+        <p class="text-center fs-1 fw-bold mt-5">Welcome! Please <a href="{{ url_for('login') }}">LOGIN</a> or <a href="{{ url_for('register') }}">REGISTER</a>.</p>
+    </div>
     {% else %}
+
+        <div class="container">
+            <h1>Add a new task?</h1>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Add a New Task</h5>
+        
+                    <form action="{{ url_for('add_task') }}" method="post">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Task Title:</label>
+                            <input type="text" name="title" class="form-control w-50" required>
+                        </div>
+                        <input type="hidden" name="referrer" value="{{ request.url }}">
+                        <button type="submit" class="btn btn-primary">Add Task</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+
+
+    <div class="container mt-5">
             {% if latest_task %}
-            <h2>Most Recent Task</h2>
-            <p>{{ latest_task['title'] }} - {{ latest_task['date_made'] }} - {% if latest_task['is_complete'] == 1 %}Complete{% else %}Incomplete{% endif %}</p>
+                <div class="card mt-5 gy-5">
+                    <div class="card-header h1">
+                    Most Recent Task
+                    </div>
+                    <div class="card-body">
+                    <h5 class="card-title">{{ latest_task['title'] }}</h5>
+                    <p class="card-text">This was added on {{ latest_task['date_made'] }}</p>
+                    <a href="#" class="btn btn-primary">Completed?</a>
+                    </div>
+                </div>
         {% else %}
             <p>No tasks found.</p>
         {% endif %}
 
         {% if oldest_active_task %}
-            <h2>Oldest Active Task</h2>
-            <p>{{ oldest_active_task['title'] }} - {{ oldest_active_task['date_made'] }} - {% if oldest_active_task['is_complete'] == 1 %}Complete{% else %}Incomplete{% endif %}</p>
+
+            <div class="card mt-5 gy-5">
+                <div class="card-header h1">
+                Oldest Active Task
+                </div>
+                <div class="card-body">
+                <h5 class="card-title">{{ oldest_active_task['title'] }}</h5>
+                <p class="card-text">This was added on {{ oldest_active_task['date_made'] }}</p>
+                <a href="#" class="btn btn-primary">Completed?</a>
+                </div>
+            </div>
         {% else %}
             <p>No active tasks found.</p>
         {% endif %}
     {% endif %}
+    </div>
 {% endblock %}

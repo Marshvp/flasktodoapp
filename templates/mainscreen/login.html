@@ -1,7 +1,7 @@
 {% extends 'layouts/layout.html' %}
 
 {% block content %}
-    <h1>Login</h1>
+    
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul class="flashes">
@@ -11,13 +11,16 @@
             </ul>
         {% endif %}
     {% endwith %}
-    <form method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">Login</button>
-    </form>
+    <div class="container mt-5">
+        <h1>Login</h1>
+        <form method="post">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" class="form-control w-50" id="username" name="username" required>
+            <br>
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" class="form-control w-50" id="password" name="password" required>
+            <br>
+            <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+    </div>
 {% endblock %}

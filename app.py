@@ -126,10 +126,10 @@ def add_task():
 
     cursor.execute("INSERT INTO tasks (user_id, title, date_made, is_complete) VALUES (?, ?, ?, ?)",
                    (user_id, title, date_made, is_complete))
-    tasks = cursor.fetchall()
+    db.commit()
 
-
-    return redirect(url_for('tasks'))
+    referrer = request.form.get('referrer', url_for('index'))
+    return redirect(referrer)
 
 @app.route('/history')
 def history():
@@ -140,7 +140,10 @@ def history():
     user_id = session['user_id']
     db, cursor = get_db()  
 
-    return render_template('mainscreen/history.html')
+    cursor.execute("SELECT id, title, date_made FROM tasks WHERE user_id = ? AND is_complete = 1", (user_id,))
+    completed_tasks = cursor.fetchall()
+
+    return render_template('mainscreen/history.html', completed_tasks=completed_tasks)
 
 
 @app.route('/logout', methods=['GET', 'POST'])

@@ -1,4 +1,25 @@
 {% extends 'layouts/layout.html' %}
 {% block content %}
 <h1> history </h1>
+
+<div class="d-flex justify-content-center">
+    <div class="rounded">
+        <table class="table table-info w-75" id="completedTaskTable">
+            <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Date Made</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in completed_tasks %}
+                    <tr>
+                        <td>{{ task['title'] }}</td>
+                        <td>{{ task['date_made'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
