@@ -1,4 +1,10 @@
 {% extends 'layouts/layout.html' %}
+
 {% block content %}
-<h1> All tasks </h1>
+    <h1>Task List</h1>
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task.title }} - {{ task.date_made }} - {% if task.is_complete %}Complete{% else %}Incomplete{% endif %}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

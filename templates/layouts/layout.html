@@ -29,7 +29,7 @@
                         </li>
 
                         <li class="nav-item active">
-                            <a href="{{ url_for('alltasks') }}" class="nav-link">
+                            <a href="{{ url_for('tasks') }}" class="nav-link">
                                 All Tasks
                             </a>
                         </li>
@@ -39,6 +39,13 @@
                                 History
                             </a>
                         </li>
+                        {% if 'user_id' in session %}
+                        <li class="nav-item active">
+                            <a href="{{ url_for('logout') }}" class="nav-link">
+                                Logout
+                            </a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
         </div>
