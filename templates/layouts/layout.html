@@ -21,27 +21,27 @@
                 </button>
                 <div class="container">
                 <div class="collapse navbar-collapse justify-content-evenly" id="navbarNav">
-                    <ul class="navbar-nav gx-5 gy-5">
+                    <ul class="navbar-nav gx-5 gy-5" id="navlist">
                         <li class="nav-item active">
-                            <a href="{{ url_for('index') }}" class="nav-link">
+                            <a href="{{ url_for('index') }}" class="nav-link btn btn-outline-info">
                                 Home
                             </a>
                         </li>
 
                         <li class="nav-item active">
-                            <a href="{{ url_for('tasks') }}" class="nav-link">
+                            <a href="{{ url_for('tasks') }}" class="nav-link btn btn-outline-info">
                                 All Tasks
                             </a>
                         </li>
 
                         <li class="nav-item active">
-                            <a href="{{ url_for('history') }}" class="nav-link">
+                            <a href="{{ url_for('history') }}" class="nav-link btn btn-outline-info" id="history" role="button">
                                 History
                             </a>
                         </li>
                         {% if 'user_id' in session %}
                         <li class="nav-item active">
-                            <a href="{{ url_for('logout') }}" class="nav-link">
+                            <a href="{{ url_for('logout') }}" class="nav-link btn btn-outline-info">
                                 Logout
                             </a>
                         </li>

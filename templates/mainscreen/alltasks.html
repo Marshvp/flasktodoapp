@@ -1,10 +1,21 @@
 {% extends 'layouts/layout.html' %}
 
 {% block content %}
+
+    <h1>Add a new task?</h1>
+
+    <form action="{{ url_for('add_task') }}" method="post">
+        <label for="title">Task Title:</label>
+        <input type="text" name="title" required>
+        <button type="submit">Add Task</button>
+    </form>
+    <br><br><br>
     <h1>Task List</h1>
+
+    {{ tasks }} {# Print tasks for debugging purposes #}
     <ul>
         {% for task in tasks %}
-            <li>{{ task.title }} - {{ task.date_made }} - {% if task.is_complete %}Complete{% else %}Incomplete{% endif %}</li>
+        <li>{{ task['title'] }} - {{ task['date_made'] }} - {% if task['is_complete'] == 1 %}Complete{% else %}Incomplete{% endif %}</li>
         {% endfor %}
     </ul>
 {% endblock %}

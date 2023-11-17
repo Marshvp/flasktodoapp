@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, g
 import sqlite3
 from werkzeug.security import check_password_hash, generate_password_hash
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'apple_pie' 
@@ -86,7 +87,11 @@ def index():
     cursor.execute("SELECT id, title, date_made, is_complete FROM tasks WHERE user_id = ? AND is_complete = 0 ORDER BY date_made ASC LIMIT 1", (user_id,))
     oldest_active_task = cursor.fetchone()
 
-    return render_template('mainscreen/index.html', latest_task=latest_task, oldest_active_task=oldest_active_task)
+
+    latest_task_with_names = {'id': latest_task[0], 'title': latest_task[1], 'date_made': latest_task[2], 'is_complete': latest_task[3]} if latest_task else None
+    oldest_active_task_with_names = {'id': oldest_active_task[0], 'title': oldest_active_task[1], 'date_made': oldest_active_task[2], 'is_complete': oldest_active_task[3]} if oldest_active_task else None
+
+    return render_template('mainscreen/index.html', latest_task=latest_task_with_names, oldest_active_task=oldest_active_task_with_names)
 
 
 @app.route('/tasks')
@@ -100,10 +105,31 @@ def tasks():
 
     # all tasks to be added/found
     cursor.execute("SELECT id, title, date_made, is_complete FROM tasks WHERE user_id = ?", (user_id,))
+    activetasks = cursor.fetchall()
+
+    tasks_with_names = [{'id': id, 'title': title, 'date_made': date_made, 'is_complete': is_complete} for id, title, date_made, is_complete in activetasks]
+
+    return render_template('mainscreen/alltasks.html', tasks=tasks_with_names)
+
+@app.route('/add_task', methods=['POST'])
+def add_task():
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    user_id = session['user_id']
+    db, cursor = get_db()
+
+    title = request.form.get('title')
+    date_made = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    is_complete = False
+
+    cursor.execute("INSERT INTO tasks (user_id, title, date_made, is_complete) VALUES (?, ?, ?, ?)",
+                   (user_id, title, date_made, is_complete))
     tasks = cursor.fetchall()
 
-    return render_template('mainscreen/alltasks.html', tasks=tasks)
 
+    return redirect(url_for('tasks'))
 
 @app.route('/history')
 def history():

@@ -4,18 +4,18 @@
     {% if 'user_id' not in session %}
         <p>Welcome! Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a>.</p>
     {% else %}
-        <h2>Most Recent Task</h2>
-        {% if latest_task %}
-            <p>{{ latest_task.title }} - {{ latest_task.date_made }} - {% if latest_task.is_complete %}Complete{% else %}Incomplete{% endif %}</p>
+            {% if latest_task %}
+            <h2>Most Recent Task</h2>
+            <p>{{ latest_task['title'] }} - {{ latest_task['date_made'] }} - {% if latest_task['is_complete'] == 1 %}Complete{% else %}Incomplete{% endif %}</p>
         {% else %}
-            <p>No tasks available.</p>
+            <p>No tasks found.</p>
         {% endif %}
 
-        <h2>Oldest Still Active Task</h2>
         {% if oldest_active_task %}
-            <p>{{ oldest_active_task.title }} - {{ oldest_active_task.date_made }} - {% if oldest_active_task.is_complete %}Complete{% else %}Incomplete{% endif %}</p>
+            <h2>Oldest Active Task</h2>
+            <p>{{ oldest_active_task['title'] }} - {{ oldest_active_task['date_made'] }} - {% if oldest_active_task['is_complete'] == 1 %}Complete{% else %}Incomplete{% endif %}</p>
         {% else %}
-            <p>No active tasks available.</p>
+            <p>No active tasks found.</p>
         {% endif %}
     {% endif %}
 {% endblock %}
