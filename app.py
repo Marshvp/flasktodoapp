@@ -80,7 +80,7 @@ def index():
     db, cursor = get_db()
 
     # find newest task
-    cursor.execute("SELECT id, title, date_made, is_complete FROM tasks WHERE user_id = ? ORDER BY date_made DESC LIMIT 1", (user_id,))
+    cursor.execute("SELECT id, title, date_made, is_complete FROM tasks WHERE user_id = ? AND is_complete = 0 ORDER BY date_made DESC LIMIT 1", (user_id,))
     latest_task = cursor.fetchone()
 
     # find oldest task
@@ -104,7 +104,7 @@ def tasks():
     db, cursor = get_db()   
 
     # all tasks to be added/found
-    cursor.execute("SELECT id, title, date_made, is_complete FROM tasks WHERE user_id = ?", (user_id,))
+    cursor.execute("SELECT id, title, date_made, is_complete FROM tasks WHERE user_id = ? AND is_complete = 0", (user_id,))
     activetasks = cursor.fetchall()
 
     tasks_with_names = [{'id': id, 'title': title, 'date_made': date_made, 'is_complete': is_complete} for id, title, date_made, is_complete in activetasks]
@@ -131,6 +131,28 @@ def add_task():
     referrer = request.form.get('referrer', url_for('index'))
     return redirect(referrer)
 
+
+@app.route('/complete_task/<int:task_id>', methods=['POST'])
+def complete_task(task_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    db, cursor = get_db()
+
+    # Check if the task belongs to the logged-in user
+    cursor.execute("SELECT id FROM tasks WHERE id = ? AND user_id = ?", (task_id, user_id))
+    task = cursor.fetchone()
+
+    if task:
+        # Update the task status to completed
+        cursor.execute("UPDATE tasks SET is_complete = 1 WHERE id = ?", (task_id,))
+        db.commit()
+    else:
+        flash('Invalid task or unauthorized access', 'error')
+
+    return redirect(url_for('tasks'))
+
 @app.route('/history')
 def history():
 
@@ -143,7 +165,9 @@ def history():
     cursor.execute("SELECT id, title, date_made FROM tasks WHERE user_id = ? AND is_complete = 1", (user_id,))
     completed_tasks = cursor.fetchall()
 
-    return render_template('mainscreen/history.html', completed_tasks=completed_tasks)
+    completed_names = [{'id': id, 'title': title, 'date_made': date_made,} for id, title, date_made in completed_tasks]
+
+    return render_template('mainscreen/history.html', tasks=completed_names)
 
 
 @app.route('/logout', methods=['GET', 'POST'])

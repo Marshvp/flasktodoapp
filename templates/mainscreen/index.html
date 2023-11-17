@@ -35,9 +35,13 @@
                     Most Recent Task
                     </div>
                     <div class="card-body">
-                    <h5 class="card-title">{{ latest_task['title'] }}</h5>
-                    <p class="card-text">This was added on {{ latest_task['date_made'] }}</p>
-                    <a href="#" class="btn btn-primary">Completed?</a>
+                        <h5 class="card-title">{{ latest_task['title'] }}</h5>
+                        <p class="card-text">This was added on {{ latest_task['date_made'] }}</p>
+                        
+                        <form action="{{ url_for('complete_task', task_id=latest_task['id']) }}" method="post">
+                            <button type="submit" class="btn btn-primary">Completed?</button>
+                        </form>
+
                     </div>
                 </div>
         {% else %}
