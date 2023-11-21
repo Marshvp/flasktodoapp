@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap');
+
 body {
     background: linear-gradient(#FEAA9F,#E8A0C6,#8CA4BE);
     background-attachment: fixed;
+    font-family: Dosis, sans-serif;
+    font-weight: 600;
 }
 
 #logo {

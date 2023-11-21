@@ -180,7 +180,7 @@ def history():
 
 
 
-@app.route('/undo_task/<int:task_id>', methods=['POST'])
+'''@app.route('/undo_task/<int:task_id>', methods=['POST'])
 def undo_task(task_id):
     if 'user_id' not in session:
         return redirect(url_for('login'))
@@ -200,7 +200,7 @@ def undo_task(task_id):
 
     referrer = request.form.get('referrer', url_for('history'))
 
-    return redirect(referrer)
+    return redirect(referrer)'''
 
 
 
