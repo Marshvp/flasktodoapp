@@ -180,8 +180,81 @@ def history():
 
 
 
+@app.route('/undo_task/<int:task_id>', methods=['POST'])
+def undo_task(task_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    db, cursor = get_db()
+
+    # Check if the task belongs to the logged-in user
+    cursor.execute("SELECT id FROM tasks WHERE id = ? AND user_id = ?", (task_id, user_id))
+    task = cursor.fetchone()
+
+    if task:
+        cursor.execute("UPDATE tasks SET is_complete = 0, date_completed = NULL WHERE id = ?", (task_id,))
+        db.commit()
+    else:
+        flash('Invalid task or unauthorized access', 'error')
+
+    referrer = request.form.get('referrer', url_for('history'))
+
+    return redirect(referrer)
 
 
+
+''' @app.route('/delete_task/<int:task_id>', methods=['POST'])
+def delete_task(task_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    db, cursor = get_db()
+
+    # Check if the task belongs to the logged-in user
+    cursor.execute("SELECT id FROM tasks WHERE id = ? AND user_id = ?", (task_id, user_id))
+    task = cursor.fetchone()
+
+    if task:
+        cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+        db.commit()
+    else:
+        flash('Invalid task or unauthorized access', 'error')
+
+    referrer = request.form.get('referrer', url_for('history'))
+
+    return redirect(referrer) '''
+
+@app.route('/action_task/<int:task_id>', methods=['POST'])
+def action_task(task_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    db, cursor = get_db()
+
+    # Check if the task belongs to the logged-in user
+    cursor.execute("SELECT id FROM tasks WHERE id = ? AND user_id = ?", (task_id, user_id))
+    task = cursor.fetchone()
+
+    if task:
+        action = request.form.get('action')
+
+        if action == 'Undo':
+            cursor.execute("UPDATE tasks SET is_complete = 0, date_completed = NULL WHERE id = ?", (task_id,))
+        elif action == 'Delete':
+            cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+        else:
+            flash('Invalid action', 'error')
+
+        db.commit()
+    else:
+        flash('Invalid task or unauthorized access', 'error')
+
+    referrer = request.form.get('referrer', url_for('history'))
+
+    return redirect(referrer)
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():

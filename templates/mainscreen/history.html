@@ -1,4 +1,5 @@
 {% extends 'layouts/layout.html' %}
+
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -28,6 +29,7 @@
                     {% endif %}     </a></th>
                     <th scope="col"><a href="#" onclick="sortTable('date_completed');">Date Completed</a></th>
                     <th scope="col">Status</th>
+                    <th scope="col"><a href="#">Action</a></th>
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +39,20 @@
                         <td>{{ task['date_made'] }}</td>
                         <td>{{ task['date_completed'] }}</td>
                         <td>Completed</td>
-                        
+                        <td>
+                            <form action="{{ url_for('action_task', task_id=task['id']) }}" method="post">
+                                <input type="hidden" name="referrer" value="{{ request.url }}">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Action
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><button class="dropdown-item" name="action" value="Undo" type="submit">Undo</button></li>
+                                        <li><button class="dropdown-item" name="action" value="Delete" type="submit">Delete</button></li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
