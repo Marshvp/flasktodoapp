@@ -109,7 +109,10 @@ def tasks():
 
     tasks_with_names = [{'id': id, 'title': title, 'date_made': date_made} for id, title, date_made in activetasks]
 
-    return render_template('mainscreen/alltasks.html', tasks=tasks_with_names)
+    sort_order = request.args.get('sort_order', 'desc')  # Default to descending order
+    tasks_with_names.sort(key=lambda x: x['date_made'], reverse=(sort_order == 'desc'))
+
+    return render_template('mainscreen/alltasks.html', tasks=tasks_with_names, sort_order=sort_order)
 
 @app.route('/add_task', methods=['POST'])
 def add_task():
@@ -170,7 +173,14 @@ def history():
 
     completed_names = [{'id': id, 'title': title, 'date_made': date_made, 'date_completed': date_completed} for id, title, date_made, date_completed in completed_tasks]
 
-    return render_template('mainscreen/history.html', tasks=completed_names)
+    sort_order = request.args.get('sort_order', 'desc')  # Default to descending order
+    completed_names.sort(key=lambda x: x['date_made'], reverse=(sort_order == 'desc'))
+
+    return render_template('mainscreen/history.html', tasks=completed_names, sort_order=sort_order)
+
+
+
+
 
 
 @app.route('/logout', methods=['GET', 'POST'])

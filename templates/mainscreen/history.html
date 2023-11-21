@@ -1,5 +1,7 @@
 {% extends 'layouts/layout.html' %}
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <div class="container mt-5">
 <h1> History</h1>
 </div>
@@ -9,9 +11,22 @@
         <table class="table " id="tasktable">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Date Made</th>
-                    <th scope="col">Date Completed</th>
+                    <th scope="col"><a href="#" onclick="sortTable('date_made');">Title</a></th>
+                    <th scope="col"><a href="#" onclick="sortTable('date_made');">Date Made 
+                        {% if sort_order == 'desc' %}
+                        <a href="{{ url_for('tasks', sort_order='asc') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
+                            </svg>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('tasks', sort_order='desc') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
+                            </svg>
+                        </a>
+                    {% endif %}     </a></th>
+                    <th scope="col"><a href="#" onclick="sortTable('date_completed');">Date Completed</a></th>
                     <th scope="col">Status</th>
                 </tr>
             </thead>
@@ -22,10 +37,27 @@
                         <td>{{ task['date_made'] }}</td>
                         <td>{{ task['date_completed'] }}</td>
                         <td>Completed</td>
+                        
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
         </div>
     </div>
+
+    <script>
+        function sortTable(column) {
+            var url = window.location.href.split('?')[0];
+            var sort_order = 'asc';
+
+            // Check the current sort order
+            var currentSortOrder = new URL(window.location.href).searchParams.get('sort_order');
+            if (currentSortOrder && currentSortOrder.toLowerCase() === 'asc') {
+                sort_order = 'desc';
+            }
+
+            // Redirect with the new sort order
+            window.location.href = url + '?sort_order=' + sort_order;
+        }
+    </script>
 {% endblock %}
