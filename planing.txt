@@ -5,12 +5,17 @@ First thing to do:
 
 Setting up database
     needs:
+        tasks:
             task id
             task title
             task tag
             date made
             is complete?
-    will need to link to user account if have time.
+            make foreign key to connect to user id
+        users:
+            id
+            user_id
+            password (needs to be hash before adding)
 
 need a list of ongoing tasks
 need a page for completed tasks
@@ -20,8 +25,6 @@ need a page for completed tasks
 layout
 
 need nav bar (bootstrap??)
-need footer (bootstrap??)
-try to make it mobile friendly(looking like bootstrap lmao)
 
 
 navbar sources:

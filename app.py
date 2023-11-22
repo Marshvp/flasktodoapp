@@ -37,7 +37,7 @@ def login():
         if user and check_password_hash(user[2], password):
             # if user and password match db
             session['user_id'] = user[0]
-            return redirect(url_for('tasks'))
+            return redirect(url_for('index'))
         else:
             # invalidd login
             flash('Invalid username or password', 'error')
