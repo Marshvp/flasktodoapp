@@ -3,7 +3,7 @@
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-<div class="container mt-5">
+<div class="d-flex justify-content-evenly mt-5">
 <h1> History</h1>
 </div><br>
 
@@ -12,8 +12,11 @@
 
     <div class="d-flex justify-content-evenly">
         <div class="table-responsive w-75 bdr mt-5">
-            <input type="text" id="searchInput" placeholder="Search tasks">
-        <table class="table " id="tasktable">
+            <div class="search">
+                <i class="bi bi-search"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search tasks">
+            </div>
+        <table class="table bdr" id="tasktable">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col"><a href="#" onclick="sortTable('date_made');">Title</a></th>
