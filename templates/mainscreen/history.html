@@ -35,7 +35,7 @@
             <tbody>
                 {% for task in tasks %}
                     <tr>
-                        <td>{{ task['title'] }}</td>
+                        <td class="searchitem">{{ task['title'] }}</td>
                         <td>{{ task['date_made'] }}</td>
                         <td>{{ task['date_completed'] }}</td>
                         <td>Completed</td>
@@ -43,7 +43,7 @@
                             <form action="{{ url_for('action_task', task_id=task['id']) }}" method="post">
                                 <input type="hidden" name="referrer" value="{{ request.url }}">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                         Action
                                     </button>
                                     <ul class="dropdown-menu">
