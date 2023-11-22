@@ -5,10 +5,14 @@
 
 <div class="container mt-5">
 <h1> History</h1>
-</div>
+</div><br>
+
+    
+
 
     <div class="d-flex justify-content-evenly">
         <div class="table-responsive w-75 bdr mt-5">
+            <input type="text" id="searchInput" placeholder="Search tasks">
         <table class="table " id="tasktable">
             <thead class="thead-dark">
                 <tr>
@@ -75,4 +79,5 @@
             window.location.href = url + '?sort_order=' + sort_order;
         }
     </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}
