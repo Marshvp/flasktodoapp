@@ -48,8 +48,8 @@ def login():
 def register():
     db, cursor = g.db, g.cursor
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form['username'] #submit username
+        password = request.form['password'] #submit password
 
         # check availability
         cursor.execute("SELECT id FROM users WHERE username = ?", (username,))
@@ -87,7 +87,7 @@ def index():
     cursor.execute("SELECT id, title, date_made, is_complete FROM tasks WHERE user_id = ? AND is_complete = 0 ORDER BY date_made ASC LIMIT 1", (user_id,))
     oldest_active_task = cursor.fetchone()
 
-
+    #had issues where it was a tuple and needed the strings. x_with_names = printing strings from tuple
     latest_task_with_names = {'id': latest_task[0], 'title': latest_task[1], 'date_made': latest_task[2], 'is_complete': latest_task[3]} if latest_task else None
     oldest_active_task_with_names = {'id': oldest_active_task[0], 'title': oldest_active_task[1], 'date_made': oldest_active_task[2], 'is_complete': oldest_active_task[3]} if oldest_active_task else None
 
@@ -123,15 +123,16 @@ def add_task():
     user_id = session['user_id']
     db, cursor = get_db()
 
-    title = request.form.get('title')
+    title = request.form.get('title') 
     date_made = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     is_complete = False
 
+    #add task to db
     cursor.execute("INSERT INTO tasks (user_id, title, date_made, is_complete) VALUES (?, ?, ?, ?)",
                    (user_id, title, date_made, is_complete))
     db.commit()
 
-    referrer = request.form.get('referrer', url_for('index'))
+    referrer = request.form.get('referrer', url_for('index')) #referrer will send you back to page you came from
     return redirect(referrer)
 
 
@@ -168,6 +169,7 @@ def history():
     user_id = session['user_id']
     db, cursor = get_db()  
 
+    #pull all data
     cursor.execute("SELECT id, title, date_made, date_completed FROM tasks WHERE user_id = ? AND is_complete = 1", (user_id,))
     completed_tasks = cursor.fetchall()
 
@@ -238,6 +240,7 @@ def action_task(task_id):
     cursor.execute("SELECT id FROM tasks WHERE id = ? AND user_id = ?", (task_id, user_id))
     task = cursor.fetchone()
 
+    #the if task is to catch any errors.
     if task:
         action = request.form.get('action')
 
